@@ -1,0 +1,103 @@
+{
+  "name": "Pub/Sub to Avro",
+  "description": "Streaming pipeline. Reads from a Pub/Sub subscription and outputs windowed Avro files to the specified directory.",
+  "parameters": [
+    {
+      "name": "inputSubscription",
+      "label": "Input of The Pub/Sub Subscription",
+      "helpText": "Name of The Pub/Sub Subscription. ex: projects/<project-id>/subscriptions/<subscription-name>",
+      "regexes": [
+        ^projects\\/[^\\n\\r\\/]+\\/subscriptions\\/[^\\n\\r\\/]+$
+      ],
+      "paramType": "PUBSUB_SUBSCRIPTION"
+    },
+    {
+      "name": "inputAttributeId",
+      "label": "Input of the Pub/Sub Attribute ID",
+      "helpText": "Default value is used when not specified.",
+      "isOptional": true,
+      "regexes": [
+        "^[a-zA-Z]+$"
+      ],
+      "paramType": "TEXT"
+    },
+    {
+      "name": "inputAttributeTimestamp",
+      "label": "Input of the Pub/Sub Attribute Timestamp",
+      "helpText": "Default value is used when not specified.",
+      "isOptional": true,
+      "regexes": [
+        "^[a-zA-Z]+$"
+      ],
+      "paramType": "TEXT"
+    },
+    {
+      "name": "outputDirectory",
+      "label": "Output directory",
+      "helpText": "The output location in Cloud Storage where Avro files will be archived. DateTime formatting is used to parse directory path for date & time formatters. Ex: gs://your-bucket/your-path",
+      "regexes": [
+        "^gs:\\/\\/[^\\n\\r]+$"
+      ],
+      "paramType": "GCS_WRITE_FOLDER"
+    },
+    {
+      "name": "outputFilenamePrefix",
+      "label": "Output Avro filename prefix",
+      "helpText": "Default value is used when not specified.",
+      "isOptional": true,
+      "regexes": [
+        "^[a-zA-Z]+$"
+      ],
+      "paramType": "TEXT"
+    },
+    {
+      "name": "outputFilenameSuffix",
+      "label": "Output Avro filename suffix",
+      "helpText": "Defaults to no suffix when not specified.",
+      "isOptional": true,
+      "regexes": [
+        "^[\\.a-zA-Z]+$"
+      ],
+      "paramType": "TEXT"
+    },
+    {
+      "name": "outputShardTemplate",
+      "label": "Output shard template",
+      "helpText": "Defines the shard template of the output file. Recommended: use the default (W-P-SS-of-NN). At runtime, 'W' is replaced with the window date range and 'P' is replaced with the pane info. Repeating sequences of the letters 'S' or 'N' are replaced with the shard number and number of shards respectively. The pipeline assumes a single file output and will produce the text of '00-of-01' by default.",
+      "isOptional": true,
+      "regexes": [
+        "^W-P-(S){1,}-of-(N){1,}$"
+      ],
+      "paramType": "TEXT"
+    },
+    {
+      "name": "numShards",
+      "label": "Maximum number of output shards",
+      "helpText": "The default maximum number of shards is 1.",
+      "isOptional": true,
+      "regexes": [
+        "^[1-9]+$"
+      ],
+      "paramType": "TEXT"
+    },
+    {
+      "name": "windowDuration",
+      "label": "Window duration for windowed Avro files creation",
+      "helpText": "Defaults to 5 minutes. Format: Ns (for seconds), Nm (for minutes), or Nh (for hours). Ex: \u20185m\u2019 or \u20182h\u2019",
+      "isOptional": true,
+      "regexes": [
+        "^([1-9]|1[0-9]|2[0-4])h$|^(([1-9]|[1-5][0-9]|60)(s|m))$"
+      ],
+      "paramType": "TEXT"
+    },
+    {
+      "name": "avroTempDirectory",
+      "label": "Temporary Avro write directory",
+      "helpText": "Directory for temporary Avro files. Ex: gs://your-bucket/your-temp-directory",
+      "regexes": [
+        "^gs:\\/\\/[^\\n\\r]+$"
+      ],
+      "paramType": "GCS_WRITE_FOLDER"
+    }
+  ]
+}
