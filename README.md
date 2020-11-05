@@ -47,6 +47,12 @@ mvn compile exec:java \
      --templateLocation=gs://[YOUR_BUCKET_NAME]/templates/[BEAM_VERSION]/<template-name>"
 ```
 
+Also you need to copy the metadata file in the same folder as the template.
+
+```bash
+gsutil cp metadata/Cloud_PubSub_Subscription_to_Avro_metadata gs://[YOUR_BUCKET_NAME]/templates/[BEAM_VERSION]/<template-name>
+```
+
 
 ## Run Dataflow
 
